@@ -117,7 +117,7 @@ runs:
 
     - name: Get version number
       id: version
-      uses: finebits/github-actions/version-number@v1.1.2
+      uses: finebits/github-actions/version-number@v1.2.0
 
     - name: Save nuget parameters
       id: nuget 
