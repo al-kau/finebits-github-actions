@@ -21,3 +21,21 @@ updates:
       GitHub-actions:
         patterns:
           - "github/*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/pack-nuget/"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "al-kau"
+      - "ValeraFinebits"
+    groups:
+      Common-actions:
+        patterns:
+          - "actions/*"
+      Finebits-actions:
+        patterns:
+          - "finebits/*"
+      GitHub-actions:
+        patterns:
+          - "github/*"
