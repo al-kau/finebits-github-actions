@@ -158,7 +158,15 @@ jobs:
     - name: Check pre-build/replace action result
       shell: bash
       run: | 
-        test_file="./pre-build/replace/.test-replace/test-file.txt"
-        result_file="./pre-build/replace/.test-replace/result-file.txt"
-        (cmp -s "$test_file" "$result_file") && echo "The 'pre-build/replace' action is passed the tests" || echo "::error::The 'pre-build/replace' action is failed the tests"
-        
+        actual_file="./pre-build/replace/.test-replace/test-file.txt"
+        expected_file="./pre-build/replace/.test-replace/result-file.txt"
+        if (cmp -s "$actual_file" "$expected_file"); then
+          echo "The 'pre-build/replace' action is passed the tests"
+        else
+          echo "::error::The 'pre-build/replace' action is failed the tests"
+          echo "Actual contents of the file:"
+          echo "$actual_file"
+          echo "Expected contents of the file:"
+          echo "$expected_file"
+          exit 1
+        fi
