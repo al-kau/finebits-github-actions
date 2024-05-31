@@ -165,8 +165,8 @@ jobs:
         else
           echo "::error::The 'pre-build/replace' action is failed the tests"
           echo "Actual contents of the file:"
-          echo "$actual_file"
+          echo "$(cat $actual_file)"
           echo "Expected contents of the file:"
-          echo "$expected_file"
+          echo "$(cat $expected_file)"
           exit 1
         fi
