@@ -1,0 +1,5 @@
+This text should be replaced "<placeholder>"
+This text shouldn't be replaced "<place-holder>"
+This text should be replaced "<placeholder> <placeholder> <placeholder>"
+This text shouldn't be replaced "<place
+holder>"

@@ -1,0 +1,5 @@
+This text should be replaced "new value"
+This text shouldn't be replaced "<place-holder>"
+This text should be replaced "new value new value new value"
+This text shouldn't be replaced "<place
+holder>"

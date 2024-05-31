@@ -147,3 +147,18 @@ jobs:
         push-to-nuget: false
         push-to-github: false
         upload-artifact: false
+        
+    - name: Run pre-build/replace action
+      uses: ./pre-build/replace
+      with:
+        file: ./pre-build/replace/.test-replace/test-file.txt
+        placeholder: "<placeholder>"
+        value: "new value"
+
+    - name: Check pre-build/replace action result
+      shell: bash
+      run: | 
+        test_file="./pre-build/replace/.test-replace/test-file.txt"
+        result_file="./pre-build/replace/.test-replace/result-file.txt"
+        (cmp -s "$test_file" "$result_file") && echo "The 'pre-build/replace' action is passed the tests" || echo "::error::The 'pre-build/replace' action is failed the tests"
+        
