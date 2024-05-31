@@ -159,7 +159,7 @@ jobs:
       shell: bash
       run: | 
         actual_file="./pre-build/replace/.test-replace/test-file.txt"
-        expected_file="./pre-build/replace/.test-replace/result-file.txt"
+        expected_file="./pre-build/replace/.test-replace/expected-file.txt"
         if (cmp -s "$actual_file" "$expected_file"); then
           echo "The 'pre-build/replace' action is passed the tests"
         else
