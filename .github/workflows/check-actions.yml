@@ -1,6 +1,6 @@
 ################################################################################
 #                                                                              #
-#   Copyright 2023 Finebits (https://finebits.com)                             #
+#   Copyright 2024 Finebits (https://finebits.com)                             #
 #                                                                              #
 #   Licensed under the Apache License, Version 2.0 (the "License");            #
 #   you may not use this file except in compliance with the License.           #
@@ -147,7 +147,7 @@ jobs:
         push-to-nuget: false
         push-to-github: false
         upload-artifact: false
-        
+
     - name: Run pre-build/replace action
       uses: ./pre-build/replace
       with:
@@ -155,7 +155,7 @@ jobs:
         placeholder: "<placeholder>"
         value: "new value"
 
-    - name: Check pre-build/replace action result
+    - name: Check pre-build/replace action
       shell: bash
       run: | 
         actual_file="./pre-build/replace/.test-replace/test-file.txt"
