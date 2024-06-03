@@ -2,7 +2,7 @@
 
 This text should be replaced "new value"
 This text shouldn't be replaced "<place-holder>"
-This text should be replaced "new value new value new value"
+This text should be replaced "new value new value new value"!
 This text shouldn't be replaced "<place
 holder>"
 
@@ -17,9 +17,9 @@ holder>"
     double
     single
     float
-	class
+	class!
 	struct
-	record
+    record
 	interface
     function
 
@@ -51,6 +51,6 @@ https://url.com/?q=foo&p=bar#fragment
 
 -----------------numbers----------------
 
-1234567890
+1234&567890
 
 ----------------no-newline--------------
