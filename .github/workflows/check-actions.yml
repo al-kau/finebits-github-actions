@@ -54,6 +54,7 @@ jobs:
 
     - name: Check Repository Secrets and Variables
       if: ${{ github.event_name != 'pull_request' }}
+      shell: bash
       run: |
         exit=false
         if [ -z '${{ env.gist-id }}' ]; then
@@ -80,6 +81,7 @@ jobs:
       uses: ./version-number
 
     - name: Check version-number action
+      shell: bash
       run: |
         echo "Build version: ${{ steps.version-number.outputs.build-version }}"
         echo "Suffix version: ${{ steps.version-number.outputs.suffix-version }}"
@@ -117,6 +119,7 @@ jobs:
 
     - name: Check badges/shields-io-badge action
       if: ${{ env.gist-id != '' && env.gist-auth-token != '' }}
+      shell: bash
       run: |
         link='${{ steps.badges-shields-io-badge.outputs.badge-link }}'
         echo -e 'Badge link: '$link'\n'
@@ -136,6 +139,7 @@ jobs:
 
     - name: Check badges/coverlet-coverage-badge action
       if: ${{ env.gist-id != '' && env.gist-auth-token != '' }}
+      shell: bash
       run: |
         json='${{ steps.badges-coverlet-coverage-badge.outputs.badges-links }}'
 
