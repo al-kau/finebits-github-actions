@@ -173,9 +173,7 @@ jobs:
           echo "The 'pre-build/replace' action is passed the tests"
         else
           echo "::error::The 'pre-build/replace' action is failed the tests"
-          echo "Actual contents of the file:"
-          echo "$(cat $actual_file)"
-          echo "Expected contents of the file:"
-          echo "$(cat $expected_file)"
+          echo "Differences:"
+          diff "$actual_file" "$expected_file"
           exit 1
         fi
