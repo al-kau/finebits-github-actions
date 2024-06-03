@@ -1,4 +1,4 @@
------------------Test-text--------------
+-----------------test-text--------------
 
 This text should be replaced "new value"
 This text shouldn't be replaced "<place-holder>"
@@ -21,6 +21,7 @@ holder>"
 	struct
 	record
 	interface
+    function
 
 -----------------code--------------------
 
