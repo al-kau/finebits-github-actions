@@ -2,8 +2,7 @@
 
 [![GitHub release](https://img.shields.io/github/release/finebits/github-actions.svg)](https://GitHub.com/finebits/github-actions/tags/)
 [![License](https://img.shields.io/github/license/finebits/github-actions.svg)](https://github.com/finebits/github-actions/blob/main/LICENSE)
-[![Main branch: check](https://img.shields.io/github/actions/workflow/status/finebits/github-actions/check-actions.yml?branch=main&logo=github&label=main:%20check)](https://github.com/finebits/github-actions/actions/workflows/check-actions.yml?query=branch%3Amain)
-[![Develop branch: check](https://img.shields.io/github/actions/workflow/status/finebits/github-actions/check-actions.yml?branch=develop&logo=github&label=develop:%20check)](https://github.com/finebits/github-actions/actions/workflows/check-actions.yml?query=branch%3Adevelop)
+[![Check action](https://img.shields.io/github/actions/workflow/status/finebits/github-actions/check-actions.yml?branch=main&event=push&logo=github&label=check)](https://github.com/finebits/github-actions/actions/workflows/check-actions.yml?query=branch%3Amain+event%3Apush)
 
 ## Overview
 
@@ -32,6 +31,11 @@
     - [Using](#using-4)
     - [Action inputs](#action-inputs-4)
     - [Action outputs](#action-outputs-4)
+ 6. [Action 'pre-build/replace'](#action-pre-buildreplace)
+    - [Summary](#summary-5)
+    - [Using](#using-5)
+    - [Action inputs](#action-inputs-5)
+    - [Action outputs](#action-outputs-5)
 
 ## Action `version-number`
 
@@ -274,6 +278,33 @@ It uploads an asset to the existing release. Also **upload-release-asset** actio
 - `tag` - The name of the tag. To use the latest release, leave the value unset. default: unset;
 - `github-api-version` - To specify a version of the Github REST API, default: 2022-11-28;
 - `github-repository` - The name of the repository (ex: _finebits/github-actions_). The name is not case sensitive. default: ${GITHUB_REPOSITORY}
+
+### Action outputs
+
+ Action has no outputs.
+
+## Action `pre-build/replace`
+
+### Summary
+
+To replace all occurrences of a **placeholder** with a given **value** string inside a file.
+
+### Using
+
+```yaml
+  - name: Replace code
+    uses: finebits/github-actions/pre-build/replace@v1
+    with:
+      file: ./source/hello.js
+      placeholder: <!placeholder>
+      value: "hello world"
+```
+
+### Action inputs
+
+- `file` - (required) Path to source file;
+- `placeholder` - (required) Placeholder string;
+- `value` - (required) Final value.
 
 ### Action outputs
 
