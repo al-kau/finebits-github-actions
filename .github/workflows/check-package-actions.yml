@@ -52,7 +52,6 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       id: setup-appimagekit
       uses: ./package/appimage/setup
-      continue-on-error: true
 
     - name: Check './package/appimage/setup' action
       if: matrix.os == 'ubuntu-latest'
@@ -60,14 +59,13 @@ jobs:
       run: |
         appimagekit="${{ steps.setup-appimagekit.outputs.appimagekit }}"
 
-        if [[ "$appimagekit" == "" || "$appimagekit" != "$APPIMAGEKIT" ]]; then
+        if [[ "$appimagekit" == "" || "$appimagekit" != "$GITHUB_ACTION_APPIMAGEKIT" ]]; then
           echo "::error::appimagekit is incorrect"
         fi
 
-        if ( ! command -v "$APPIMAGEKIT" ); then
-          echo "::error::'$APPIMAGEKIT' command not found"
+        if ( ! command -v "$GITHUB_ACTION_APPIMAGEKIT" ); then
+          echo "::error::'$GITHUB_ACTION_APPIMAGEKIT' command not found"
         fi
-      continue-on-error: true
 
     - name: Print bash environment values
       shell: bash
