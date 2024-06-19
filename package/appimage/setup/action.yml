@@ -43,7 +43,7 @@ runs:
       shell: bash
       run: |
         if [ "$RUNNER_OS" != "Linux" ]; then
-          echo "::error:: This action only supports Linux."
+          echo "::error::This his action only supports Linux."
           exit 1
         fi
 
