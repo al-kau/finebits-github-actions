@@ -27,16 +27,24 @@ inputs:
     required: false
     deafult: "./AppImageKit"
 
+  appimagekit-url:
+    description: 'The AppImageKit download url'
+    type: string
+    required: false
+    deafult: "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+
+  appimagekit-filename:
+    description: 'The AppImageKit file name'
+    type: string
+    required: false
+    deafult: "appimagetool-x86_64.AppImage"
+
 outputs:
   appimagekit:
     value: ${{ steps.setup-appimagekit.outputs.appimagekit-fullname }}
 
 runs:
   using: "composite"
-
-  env:
-    appimagekit-url: "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-    appimagekit-name: "appimagetool-x86_64.AppImage"
 
   steps:
     - name: Check conditions
@@ -50,8 +58,8 @@ runs:
     - name: Download AppImageKit
       shell: bash
       run: |
-        url="${{ env.appimagekit-url }}"
-        name="${{ env.appimagekit-name }}"
+        url="${{ inputs.appimagekit-url }}"
+        name="${{ inputs.appimagekit-filename }}"
         dir="${{ inputs.appimagekit-dir }}"
         wget "$url" --directory-prefix="$dir" --output-document="$name"
 
@@ -59,7 +67,7 @@ runs:
       id: setup-appimagekit
       shell: bash
       run: |
-        name="${{ env.appimagekit-name }}"
+        name="${{ inputs.appimagekit-filename }}"
         dir="${{ inputs.appimagekit-dir }}"
         fullname=$(realpath "$dir/$name")
 
