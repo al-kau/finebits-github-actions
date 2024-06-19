@@ -16,7 +16,7 @@
 #                                                                              #
 ################################################################################
 
-name: Check Actions
+name: Check Package Actions
 
 on:
   workflow_dispatch:
