@@ -61,6 +61,10 @@ runs:
         url="${{ inputs.appimagekit-url }}"
         name="${{ inputs.appimagekit-filename }}"
         dir="${{ inputs.appimagekit-dir }}"
+
+        echo "dir - $dir; url - $url; name - $name"
+
+        mkdir -p "$dir"
         wget "$url" --directory-prefix="$dir" --output-document="$name"
 
     - name: Setup AppImageKit
