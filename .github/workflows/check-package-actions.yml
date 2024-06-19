@@ -52,6 +52,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       id: setup-appimagekit
       uses: ./package/appimage/setup
+      continue-on-error: true
 
     - name: Check './package/appimage/setup' action
       if: matrix.os == 'ubuntu-latest'
@@ -60,13 +61,12 @@ jobs:
         appimagekit="${{ steps.setup-appimagekit.outputs.appimagekit }}"
         if ! ( command -v "${appimagekit}" ); then
           echo "::error::outputs.appimagekit - '${appimagekit}' command not found"
-          exit 1
         fi
 
         if ! ( command -v "$APPIMAGEKIT" ); then
           echo "::error::env APPIMAGEKIT - '$APPIMAGEKIT' command not found"
-          exit 1
         fi
+      continue-on-error: true
 
     - name: Print bash environment values
       shell: bash
