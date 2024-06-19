@@ -63,6 +63,10 @@ jobs:
         if [[ "$appimagekit" == "" || "$appimagekit" != "$APPIMAGEKIT" ]]; then
           echo "::error::appimagekit is incorrect"
         fi
+
+        if ( ! command -v "$APPIMAGEKIT" ); then
+          echo "::error::'$APPIMAGEKIT' command not found"
+        fi
       continue-on-error: true
 
     - name: Print bash environment values
