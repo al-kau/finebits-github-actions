@@ -42,9 +42,9 @@ runs:
     - name: Check conditions
       shell: bash
       run: |
-        os="$RUNNER_OS"
-        if [ "$os" != "Linux" ]; then
-          echo "This action only supports Linux (Now it runs on $os)."
+        echo $RUNNER_OS
+        if [ "$RUNNER_OS" != "Linux" ]; then
+          echo "This action only supports Linux (Now it runs on $RUNNER_OS)."
           exit 1
         fi
 
