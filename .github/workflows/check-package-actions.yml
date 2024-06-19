@@ -49,12 +49,12 @@ jobs:
         submodules: recursive
 
     - name: Run './package/appimage/setup' action
-      if: matrix.os == ubuntu-latest
+      if: matrix.os == 'ubuntu-latest'
       id: setup-appimagekit
       uses: ./package/appimage/setup
 
     - name: Check './package/appimage/setup' action
-      if: matrix.os == ubuntu-latest
+      if: matrix.os == 'ubuntu-latest'
       shell: bash
       run:
         appimagekit="${{ steps.setup-appimagekit.outputs.appimagekit }}"
