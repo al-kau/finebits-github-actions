@@ -59,15 +59,20 @@ jobs:
       shell: bash
       run:
         appimagekit="${{ steps.setup-appimagekit.outputs.appimagekit }}"
-        exist=$(command -v "${appimagekit}")
-        if ( ! $exist ); then
-          echo "::error::outputs.appimagekit - '${appimagekit}' command not found"
+
+        if [[ "$appimagekit" == "" || "$appimagekit" != "$APPIMAGEKIT" ]]; then
+          echo "::error::appimagekit is incorrect"
         fi
 
-        exist=$(command -v "$APPIMAGEKIT")
-        if ( ! $exist ); then
-          echo "::error::env APPIMAGEKIT - '$APPIMAGEKIT' command not found"
-        fi
+        # exist=$(command -v "${appimagekit}")
+        # if ( ! $exist ); then
+        #   echo "::error::outputs.appimagekit - '${appimagekit}' command not found"
+        # fi
+
+        # exist=$(command -v "$APPIMAGEKIT")
+        # if ( ! $exist ); then
+        #   echo "::error::env APPIMAGEKIT - '$APPIMAGEKIT' command not found"
+        # fi
       continue-on-error: true
 
     - name: Print bash environment values
