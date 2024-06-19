@@ -73,5 +73,5 @@ jobs:
       run: printenv
 
     - name: Print powershell environment values
-      shell: powershell
+      shell: pwsh
       run: Get-ChildItem "env:"
