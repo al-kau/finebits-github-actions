@@ -57,7 +57,7 @@ jobs:
     - name: Check './package/appimage/setup' action
       if: matrix.os == 'ubuntu-latest'
       shell: bash
-      run:
+      run: |
         appimagekit="${{ steps.setup-appimagekit.outputs.appimagekit }}"
 
         if [[ "$appimagekit" == "" || "$appimagekit" != "$APPIMAGEKIT" ]]; then
