@@ -41,9 +41,12 @@ runs:
   steps:
     - name: Check conditions
       shell: bash
+      env:
+        runner-os: "$RUNNER_OS"
       run: |
-        if [ "$RUNNER_OS" != "Linux" ]; then
-          echo "This action only supports Linux (Now it runs on $RUNNER_OS)."
+        os="${{ env.runner-os }}"
+        if [ "$os" != "Linux" ]; then
+          echo "This action only supports Linux (Now it runs on $os)."
           exit 1
         fi
 
