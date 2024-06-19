@@ -27,9 +27,9 @@ inputs:
     required: false
     deafult: "./AppImageKit"
 
-output:
+outputs:
   appimagekit:
-    value: ${{ steps.setup-appimagekit.outputs.appimagekit-fullname}}
+    value: ${{ steps.setup-appimagekit.outputs.appimagekit-fullname }}
 
 env:
   appimagekit-url: "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
