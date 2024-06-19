@@ -31,20 +31,19 @@ outputs:
   appimagekit:
     value: ${{ steps.setup-appimagekit.outputs.appimagekit-fullname }}
 
-env:
-  appimagekit-url: "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-  appimagekit-name: "appimagetool-x86_64.AppImage"
-
 runs:
   using: "composite"
+
+  env:
+    appimagekit-url: "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+    appimagekit-name: "appimagetool-x86_64.AppImage"
 
   steps:
     - name: Check conditions
       shell: bash
       run: |
-        echo $RUNNER_OS
         if [ "$RUNNER_OS" != "Linux" ]; then
-          echo "This action only supports Linux (Now it runs on $RUNNER_OS)."
+          echo "::error::This action only supports Linux (Now it runs on $RUNNER_OS)."
           exit 1
         fi
 
