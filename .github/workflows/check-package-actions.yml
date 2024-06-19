@@ -59,11 +59,13 @@ jobs:
       shell: bash
       run:
         appimagekit="${{ steps.setup-appimagekit.outputs.appimagekit }}"
-        if ! ( command -v "${appimagekit}" ); then
+        exist=$(command -v "${appimagekit}")
+        if ! ( $exist ); then
           echo "::error::outputs.appimagekit - '${appimagekit}' command not found"
         fi
 
-        if ! ( command -v "$APPIMAGEKIT" ); then
+        exist=$(command -v "$APPIMAGEKIT")
+        if ! ( $exist ); then
           echo "::error::env APPIMAGEKIT - '$APPIMAGEKIT' command not found"
         fi
       continue-on-error: true
