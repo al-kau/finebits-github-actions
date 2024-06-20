@@ -33,12 +33,12 @@ on:
       
 env:
   test-project: 'package/.test/Finebits.Package.Helloworld/Finebits.Package.Helloworld.csproj'
-  publish-options: '--configuration "release" --framework "net8.0" --self-contained --property:DebugSymbols=false --property:DebugType=None --property:GenerateDocumentationFile=fasle --property:Version="1.0.0.0" --property:PublishAot=false --property:PublishSingleFile=true'
+  publish-options: '--configuration "release" --framework "net8.0" --self-contained --property:DebugSymbols=false --property:DebugType=None --property:GenerateDocumentationFile=fasle --property:Version="1.0.0.0"' # --property:PublishAot=false --property:PublishSingleFile=true'
   dotnet-version: 8.x
 
 jobs:
 
-  check:
+  check-all:
 
     strategy:
       matrix:
@@ -94,12 +94,12 @@ jobs:
           echo "::error::'$GITHUB_ACTION_APPIMAGEKIT' command not found"
         fi
 
-    - name: Publish x64 test-project
+    - name: Pre-Run './package/appimage/pack' [with runtime x86_x64] action  
       shell: bash
       run: |
         dotnet publish ${{ env.test-project }} --output "./.test/bin/linux-x64" --runtime "linux-x64" ${{ env.publish-options}}
 
-    - name: Publish arm64 test-project
+    - name: Pre-Run './package/appimage/pack' [with runtime aarch64] action  
       shell: bash
       run: |
         dotnet publish ${{ env.test-project }} --output "./.test/bin/linux-arm64" --runtime "linux-arm64" ${{ env.publish-options}}
