@@ -30,6 +30,11 @@ on:
       - main
       - develop
       - release/**
+      
+env:
+  test-project: 'package/.test/Finebits.Package.Helloworld/Finebits.Package.Helloworld.csproj'
+  publish-options: '--configuration "release" --framework "net8.0" --self-contained --property:DebugSymbols=false --property:DebugType=None --property:GenerateDocumentationFile=fasle --property:Version="1.0.0.0" --property:PublishAot=false --property:PublishSingleFile=true'
+  dotnet-version: 8.x
 
 jobs:
 
@@ -48,13 +53,35 @@ jobs:
         fetch-depth: 0
         submodules: recursive
 
+    - name: Print bash environment values
+      shell: bash
+      run: printenv
+
+    - name: Print powershell environment values
+      shell: pwsh
+      run: Get-ChildItem "env:"
+
+  check-linux:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      with:
+        fetch-depth: 0
+        submodules: recursive
+
+    - name: Install dotnet
+      uses: actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3 # v4.0.0
+      with:
+        dotnet-version: ${{ env.dotnet-version }}
+
     - name: Run './package/appimage/setup' action
-      if: matrix.os == 'ubuntu-latest'
       id: setup-appimagekit
       uses: ./package/appimage/setup
 
     - name: Check './package/appimage/setup' action
-      if: matrix.os == 'ubuntu-latest'
       shell: bash
       run: |
         appimagekit="${{ steps.setup-appimagekit.outputs.appimagekit }}"
@@ -66,6 +93,16 @@ jobs:
         if ( ! command -v "$GITHUB_ACTION_APPIMAGEKIT" ); then
           echo "::error::'$GITHUB_ACTION_APPIMAGEKIT' command not found"
         fi
+
+    - name: Publish x64 test-project
+      shell: bash
+      run: |
+        dotnet publish ${{ env.test-project }} --output "./.test/bin/linux-x64" --runtime "linux-x64" ${{ env.publish-options}}
+
+    - name: Publish arm64 test-project
+      shell: bash
+      run: |
+        dotnet publish ${{ env.test-project }} --output "./.test/bin/linux-arm64" --runtime "linux-arm64" ${{ env.publish-options}}
 
     - name: Print bash environment values
       shell: bash
