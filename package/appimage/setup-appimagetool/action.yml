@@ -62,16 +62,19 @@ runs:
       id: setup-appimagetool
       shell: bash
       run: |
+        echo "Install libfuse2"
+        sudo add-apt-repository universe && sudo apt install libfuse2
+
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
         dir="${{ inputs.appimagekit-dir }}"
 
+        echo "Download appimagetool"
         mkdir -p "$dir"
         wget --quiet --directory-prefix="$dir" "$url"
 
         appimagetool=$(find . -path "$dir/appimagetool-*.AppImage" -print | head -n 1)
 
-        echo "appimagetool: $appimagetool"
-
+        echo "Setup appimagetool: $appimagetool"
         chmod a+x "$appimagetool"
 
         echo "appimagetool-fullname=$appimagetool" >> $GITHUB_OUTPUT
