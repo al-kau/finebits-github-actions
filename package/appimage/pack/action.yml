@@ -92,11 +92,15 @@ runs:
 
         mkdir -p "$tmp_dir"
 
+        echo "function clean"
+
         function clean() {
             echo "Cleaning..."
             cd "$here"
             rm -drf "$tmp_dir"
         }
+
+        echo "trap"
 
         trap clean EXIT
 
@@ -119,6 +123,8 @@ runs:
                 ;;
         esac
      
+        echo "readlinks..."
+
         appimagetool_realpath=$(readlink -e "${appimagetool}")
         runtime_realpath=$(readlink -e "${runtime}")
         package_app_dir_realpath=$(readlink -e "${package_app_dir}")
