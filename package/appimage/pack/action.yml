@@ -88,14 +88,17 @@ runs:
         here="$(pwd)"
         tmp_dir="$output_dir/$(uuidgen)"
 
+        echo "Create '$tmp_dir' directory"
+
         mkdir -p "$tmp_dir"
 
-        function on_exit() {
+        function clean() {
+            echo "Cleaning..."
             cd "$here"
             rm -drf "$tmp_dir"
         }
 
-        trap on_exit EXIT
+        trap clean EXIT
 
         case "${app_arch}" in
             "x86_64")
@@ -123,7 +126,11 @@ runs:
 
         cd "$tmp_dir"
 
+        echo "Packing..."
+
         ("${appimagetool_realpath}" --runtime-file="${runtime_realpath}" "${package_app_dir_realpath}")
+
+        cd "$here"
 
         package=$(find . -path '${tmp_dir}/*.AppImage' -print | head -n 1)
         package_name=$(basename -- "$package")
