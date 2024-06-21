@@ -31,11 +31,6 @@ on:
       - develop
       - release/**
       
-env:
-  test-project: 'package/.test/Finebits.Package.Helloworld/Finebits.Package.Helloworld.csproj'
-  publish-options: '--configuration "release" --framework "net8.0" --self-contained --property:DebugSymbols=false --property:DebugType=None --property:GenerateDocumentationFile=fasle --property:Version="1.0.0.0" --property:PublishAot=false --property:PublishSingleFile=true'
-  dotnet-version: 8.x
-
 jobs:
 
   check-all:
@@ -72,11 +67,6 @@ jobs:
         fetch-depth: 0
         submodules: recursive
 
-    - name: Install dotnet
-      uses: actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3 # v4.0.0
-      with:
-        dotnet-version: ${{ env.dotnet-version }}
-
     - name: Run './package/appimage/setup-appimagetool' action
       id: setup-appimagetool
       uses: ./package/appimage/setup-appimagetool
@@ -96,7 +86,7 @@ jobs:
     - name: Prepare-Run './package/appimage/pack' action  
       shell: bash
       run: |
-        bash "./package/.test/prepare-Test.AppDir"
+        bash "./package/appimage/.test/prepare-Test.AppDir"
 
     - name: Run './package/appimage/pack' action
       id: pack-appimage
@@ -106,7 +96,7 @@ jobs:
         appimagekit-dir: './.package/appimagekit/'
         package-runtime: 'x86_64'
         package-output-dir: './.output/'
-        package-app-dir: './package/.test/Test.AppDir'
+        package-app-dir: './package/appimage/.test/Test.AppDir'
 
     - name: Check './package/appimage/pack' action
       shell: bash
