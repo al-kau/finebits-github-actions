@@ -39,8 +39,7 @@ inputs:
   appimagekit-dir:
     description: 'The AppImageKit installation directory'
     type: string
-    required: false
-    default: './.package/AppImageKit'
+    required: true
 
 outputs:
   appimagetool:
@@ -68,8 +67,6 @@ runs:
 
         mkdir -p "$dir"
         wget --quiet --directory-prefix="$dir" "$url"
-
-        ls "$dir" -al
 
         appimagetool=$(find . -path "$dir/appimagetool-*.AppImage" -print | head -n 1)
 

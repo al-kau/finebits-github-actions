@@ -77,28 +77,46 @@ jobs:
       with:
         dotnet-version: ${{ env.dotnet-version }}
 
-    - name: Run './package/appimage/setup' action
-      id: setup-appimagekit
-      uses: ./package/appimage/setup
+    - name: Run './package/appimage/setup-appimagetool' action
+      id: setup-appimagetool
+      uses: ./package/appimage/setup-appimagetool
+      with:
+        appimagekit-dir: './.package/appimagekit'
+        appimagekit-runtime: 'all'
 
-    - name: Check './package/appimage/setup' action
+    - name: Check './package/appimage/setup-appimagetool' action
       shell: bash
       run: |
-        appimagekit="${{ steps.setup-appimagekit.outputs.appimagekit }}"
+        appimagetool="${{ steps.setup-appimagetool.outputs.appimagetool }}"
 
-        if ( ! command -v "$appimagekit" ); then
-          echo "::error::'$appimagekit' command not found"
+        if ( ! command -v "$appimagetool" ); then
+          echo "::error::'$appimagetool' command not found"
         fi
 
-    - name: Pre-Run './package/appimage/pack' [with runtime x86_x64] action  
+    - name: Prepare-Run './package/appimage/pack' action  
       shell: bash
       run: |
-        dotnet publish ${{ env.test-project }} --output "./.test/bin/linux-x64" --runtime "linux-x64" ${{ env.publish-options}}
+        bash "./package/.test/prepare-Test.AppDir"
 
-    - name: Pre-Run './package/appimage/pack' [with runtime aarch64] action  
+    - name: Run './package/appimage/pack' action
+      id: pack-appimage
+      uses: ./package/appimage/pack
+      with:
+        appimagetool: "${{ steps.setup-appimagetool.outputs.appimagetool }}"
+        appimagekit-dir: './.package/appimagekit/'
+        package-runtime: 'x86_64'
+        package-output-dir: './.output/'
+        package-app-dir: './package/.test/Test.AppDir'
+
+    - name: Check './package/appimage/pack' action
       shell: bash
       run: |
-        dotnet publish ${{ env.test-project }} --output "./.test/bin/linux-arm64" --runtime "linux-arm64" ${{ env.publish-options}}
+        package=${{ steps.pack-appimage.outputs.package }}
+
+        result=$("$package")
+        if [ "$result" != "Hello World" ]; then
+          echo "::error::The package '$package' is packed incorrect"
+        fi
 
     - name: Print bash environment values
       shell: bash
