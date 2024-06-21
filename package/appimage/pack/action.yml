@@ -116,13 +116,18 @@ runs:
                 ;;
         esac
      
+        appimagetool_realpath=$(readlink -e "${appimagetool}")
+        runtime_realpath=$(readlink -e "${runtime}")
+        package_app_dir_realpath=$(readlink -e "${package_app_dir}")
+        output_dir_realpath=$(readlink -e "${output_dir}")
+
         cd "$tmp_dir"
 
-        ("${appimagetool}" --runtime-file="${runtime}" "${package_app_dir}")
+        ("${appimagetool_realpath}" --runtime-file="${runtime_realpath}" "${package_app_dir_realpath}")
 
         package=$(find . -path '${tmp_dir}/*.AppImage' -print | head -n 1)
         package_name=$(basename -- "$package")
 
-        cp "$package" $output_dir
+        cp "$package" $output_dir_realpath
 
         echo "appimage-package=$output_dir/$package_name" >> $GITHUB_OUTPUT

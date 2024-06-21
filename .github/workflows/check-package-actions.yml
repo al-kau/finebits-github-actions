@@ -33,28 +33,28 @@ on:
       
 jobs:
 
-  check-all:
+  # check-all:
 
-    strategy:
-      matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+  #   strategy:
+  #     matrix:
+  #       os: [windows-latest, macos-latest, ubuntu-latest]
 
-    runs-on: ${{ matrix.os }}
+  #   runs-on: ${{ matrix.os }}
 
-    steps:
-    - name: Checkout
-      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-      with:
-        fetch-depth: 0
-        submodules: recursive
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+  #     with:
+  #       fetch-depth: 0
+  #       submodules: recursive
 
-    - name: Print bash environment values
-      shell: bash
-      run: printenv
+  #   - name: Print bash environment values
+  #     shell: bash
+  #     run: printenv
 
-    - name: Print powershell environment values
-      shell: pwsh
-      run: Get-ChildItem "env:"
+  #   - name: Print powershell environment values
+  #     shell: pwsh
+  #     run: Get-ChildItem "env:"
 
   check-linux:
 
