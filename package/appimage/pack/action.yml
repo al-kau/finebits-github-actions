@@ -134,11 +134,10 @@ runs:
 
         cd "$here"
 
-        package=$(find . -path '${tmp_dir}/*.AppImage' -print | head -n 1)
+        package=$(find . -path "$tmp_dir/*.AppImage" -print | head -n 1)
         package_name=$(basename -- "$package")
 
-        echo "package - $package"
-        echo "package_name - $package_name"
+        echo "AppImage package is '$package_name'"
 
         cp "$package" "$output_dir"
 
