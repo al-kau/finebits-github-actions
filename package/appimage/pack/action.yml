@@ -123,11 +123,20 @@ runs:
                 ;;
         esac
      
-        echo "readlinks..."
+        echo "readlink 1"
 
         appimagetool_realpath=$(readlink -e "${appimagetool}")
+
+        echo "readlink 2"
+
         runtime_realpath=$(readlink -e "${runtime}")
+
+        echo "readlink 3"
+
         package_app_dir_realpath=$(readlink -e "${package_app_dir}")
+
+        echo "readlink 4"
+
         output_dir_realpath=$(readlink -e "${output_dir}")
 
         cd "$tmp_dir"
