@@ -26,8 +26,8 @@ inputs:
     type: string
     required: true
 
-  appimagekit-dir:
-    description: 'Path to AppImageKit-runtimes directory'
+  appimagetool-dir:
+    description: 'Path to appimagetool-runtimes directory'
     type: string
     required: true
 
@@ -72,7 +72,7 @@ runs:
 
         if ( ! command -v "${{ inputs.appimagetool }}" ); then
           echo "::error::'${{ inputs.appimagetool }}' command not found"
-          exit 1
+          exit 2
         fi
 
     - name: Pack
@@ -81,7 +81,7 @@ runs:
       run: |
 
         appimagetool="${{ inputs.appimagetool }}"
-        appimagekit_dir="${{ inputs.appimagekit-dir }}"
+        appimagetool_dir="${{ inputs.appimagetool-dir }}"
         output_dir="${{ inputs.package-output-dir }}"
         package_app_dir="${{ inputs.package-app-dir }}"
 
@@ -105,19 +105,19 @@ runs:
         case "${package_runtime}" in
             "x86_64")
                 export ARCH=x86_64
-                runtime="${appimagekit_dir}/runtime-x86_64"
+                runtime="${appimagetool_dir}/runtime-x86_64"
                 ;;
             "aarch64")
                 export ARCH=arm_aarch64
-                runtime="${appimagekit_dir}/runtime-aarch64"
+                runtime="${appimagetool_dir}/runtime-aarch64"
                 ;;
             "armhf")
                 export ARCH=arm
-                runtime="${appimagekit_dir}/runtime-armhf"
+                runtime="${appimagetool_dir}/runtime-armhf"
                 ;;
             "i686")
                 export ARCH=i686
-                runtime="${appimagekit_dir}/runtime-i686"
+                runtime="${appimagetool_dir}/runtime-i686"
                 ;;
         esac
      
@@ -137,8 +137,7 @@ runs:
         package=$(find . -path "$tmp_dir/*.AppImage" -print | head -n 1)
         package_name=$(basename -- "$package")
 
-        echo "AppImage package is '$package_name'"
-
         cp "$package" "$output_dir"
 
+        echo "AppImage package is '$output_dir/$package_name'"
         echo "appimage-package=$output_dir/$package_name" >> $GITHUB_OUTPUT

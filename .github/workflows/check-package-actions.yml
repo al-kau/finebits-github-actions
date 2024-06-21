@@ -33,29 +33,6 @@ on:
       
 jobs:
 
-  # check-all:
-
-  #   strategy:
-  #     matrix:
-  #       os: [windows-latest, macos-latest, ubuntu-latest]
-
-  #   runs-on: ${{ matrix.os }}
-
-  #   steps:
-  #   - name: Checkout
-  #     uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-  #     with:
-  #       fetch-depth: 0
-  #       submodules: recursive
-
-  #   - name: Print bash environment values
-  #     shell: bash
-  #     run: printenv
-
-  #   - name: Print powershell environment values
-  #     shell: pwsh
-  #     run: Get-ChildItem "env:"
-
   check-linux:
 
     runs-on: ubuntu-latest
@@ -71,8 +48,8 @@ jobs:
       id: setup-appimagetool
       uses: ./package/appimage/setup-appimagetool
       with:
-        appimagekit-dir: './.package/appimagekit'
-        appimagekit-runtime: 'all'
+        appimagetool-dir: './.package/appimagetool'
+        appimagetool-runtime: 'all'
 
     - name: Check './package/appimage/setup-appimagetool' action
       shell: bash
@@ -81,6 +58,7 @@ jobs:
 
         if ( ! command -v "$appimagetool" ); then
           echo "::error::'$appimagetool' command not found"
+          exit 1
         fi
 
     - name: Prepare-Run './package/appimage/pack' action  
@@ -93,7 +71,7 @@ jobs:
       uses: ./package/appimage/pack
       with:
         appimagetool: "${{ steps.setup-appimagetool.outputs.appimagetool }}"
-        appimagekit-dir: './.package/appimagekit'
+        appimagetool-dir: './.package/appimagetool'
         package-runtime: 'x86_64'
         package-output-dir: './.output'
         package-app-dir: './package/appimage/.test/Test.AppDir'
@@ -104,8 +82,9 @@ jobs:
         package=${{ steps.pack-appimage.outputs.package }}
 
         result=$("$package")
-        if [ "$result" != "Hello World" ]; then
+        if [ "$result" != "Hello AppImage" ]; then
           echo "::error::The package '$package' is packed incorrect"
+          exit 2
         fi
 
     - name: Print bash environment values
