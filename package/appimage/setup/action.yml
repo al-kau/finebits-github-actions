@@ -20,11 +20,11 @@ name: Setup AppImageKit
 
 description: | 
   To setup AppImageKit and its runtimes. Look at - https://github.com/AppImage/AppImageKit#appimagetool-usage
-  As a result, the environment variable $GITHUB_ACTION_APPIMAGEKIT and outputs.appimagekit contain the full name of the AppImageKit file.
+  As a result, outputs.appimagetool contain the full name of the appimagetool-x86_64.AppImage file.
 
 inputs:
   appimagekit-runtime:
-    description: 'list of available runtimes'
+    description: 'to setup additional runtimes'
     type: choice
     default: all
     options:
@@ -42,9 +42,9 @@ inputs:
     default: './.package/AppImageKit'
 
 outputs:
-  appimagekit:
-    description: 'The full name of the AppImageKit file'
-    value: ${{ steps.setup-appimagekit.outputs.appimagekit-fullname }}
+  appimagetool:
+    description: 'The full name of the appimagetool file'
+    value: ${{ steps.setup-appimagekit.outputs.appimagetool-fullname }}
 
 runs:
   using: "composite"
@@ -63,75 +63,53 @@ runs:
       shell: bash
       run: |
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-        name="appimagetool-x86_64.AppImage"
         dir="${{ inputs.appimagekit-dir }}"
 
         mkdir -p "$dir"
+        wget --quiet "$url" --directory-prefix="$dir"
 
-        fullname=$(realpath "$dir/$name")
-        wget --quiet "$url" --output-document="$fullname"
+        appimagekit=$(find . -path '${dir}/appimagetool-*.AppImage' -print | head -n 1)
 
-        chmod a+x "$fullname"
+        chmod a+x "$appimagekit"
 
-        echo "appimagekit-fullname=$fullname" >> $GITHUB_OUTPUT
-        echo "GITHUB_ACTION_APPIMAGEKIT=$fullname" >> $GITHUB_ENV
+        echo "appimagetool-fullname=$appimagekit" >> $GITHUB_OUTPUT
 
     - name: Setup x86_64 Runtime
       if: inputs.appimagekit-runtime == 'x86_64' || inputs.appimagekit-runtime == 'all' 
       shell: bash
       run: |
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-x86_64"
-        name="runtime-x86_64"
         dir="${{ inputs.appimagekit-dir }}"
 
         mkdir -p "$dir"
-
-        fullname=$(realpath "$dir/$name")
-        wget --quiet "$url" --output-document="$fullname"
-
-        chmod a+x "$fullname"
+        wget --quiet "$url" --directory-prefix="$dir"
 
     - name: Setup aarch64 Runtime
       if: inputs.appimagekit-runtime == 'aarch64' || inputs.appimagekit-runtime == 'all' 
       shell: bash
       run: |
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-aarch64"
-        name="runtime-aarch64"
         dir="${{ inputs.appimagekit-dir }}"
 
         mkdir -p "$dir"
-
-        fullname=$(realpath "$dir/$name")
-        wget --quiet "$url" --output-document="$fullname"
-
-        chmod a+x "$fullname"
+        wget --quiet "$url" --directory-prefix="$dir"
 
     - name: Setup i686 Runtime
       if: inputs.appimagekit-runtime == 'i686' || inputs.appimagekit-runtime == 'all' 
       shell: bash
       run: |
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-i686"
-        name="runtime-i686"
         dir="${{ inputs.appimagekit-dir }}"
 
         mkdir -p "$dir"
-
-        fullname=$(realpath "$dir/$name")
-        wget --quiet "$url" --output-document="$fullname"
-
-        chmod a+x "$fullname"
+        wget --quiet "$url" --directory-prefix="$dir"
 
     - name: Setup armhf Runtime
       if: inputs.appimagekit-runtime == 'armhf' || inputs.appimagekit-runtime == 'all' 
       shell: bash
       run: |
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-armhf"
-        name="runtime-armhf"
         dir="${{ inputs.appimagekit-dir }}"
 
         mkdir -p "$dir"
-
-        fullname=$(realpath "$dir/$name")
-        wget --quiet "$url" --output-document="$fullname"
-
-        chmod a+x "$fullname"
+        wget --quiet "$url" --directory-prefix="$dir"

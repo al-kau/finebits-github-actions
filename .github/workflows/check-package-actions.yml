@@ -33,7 +33,7 @@ on:
       
 env:
   test-project: 'package/.test/Finebits.Package.Helloworld/Finebits.Package.Helloworld.csproj'
-  publish-options: '--configuration "release" --framework "net8.0" --self-contained --property:DebugSymbols=false --property:DebugType=None --property:GenerateDocumentationFile=fasle --property:Version="1.0.0.0"' # --property:PublishAot=false --property:PublishSingleFile=true'
+  publish-options: '--configuration "release" --framework "net8.0" --self-contained --property:DebugSymbols=false --property:DebugType=None --property:GenerateDocumentationFile=fasle --property:Version="1.0.0.0" --property:PublishAot=false --property:PublishSingleFile=true'
   dotnet-version: 8.x
 
 jobs:
