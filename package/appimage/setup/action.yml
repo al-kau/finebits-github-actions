@@ -45,7 +45,7 @@ inputs:
 outputs:
   appimagetool:
     description: 'The full name of the appimagetool file'
-    value: ${{ steps.setup-appimagekit.outputs.appimagetool-fullname }}
+    value: ${{ steps.setup-appimagetool.outputs.appimagetool-fullname }}
 
 runs:
   using: "composite"
@@ -60,7 +60,7 @@ runs:
         fi
 
     - name: Setup AppImageKit
-      id: setup-appimagekit
+      id: setup-appimagetool
       shell: bash
       run: |
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
@@ -69,11 +69,15 @@ runs:
         mkdir -p "$dir"
         wget --quiet --directory-prefix="$dir" "$url"
 
-        appimagekit=$(find . -path '${dir}/appimagetool-*.AppImage' -print | head -n 1)
+        ls "$dir" -al
 
-        chmod a+x "$appimagekit"
+        appimagetool=$(find . -path "$dir/appimagetool-*.AppImage" -print | head -n 1)
 
-        echo "appimagetool-fullname=$appimagekit" >> $GITHUB_OUTPUT
+        echo "appimagetool: $appimagetool"
+
+        chmod a+x "$appimagetool"
+
+        echo "appimagetool-fullname=$appimagetool" >> $GITHUB_OUTPUT
 
     - name: Setup x86_64 Runtime
       if: inputs.appimagekit-runtime == 'x86_64' || inputs.appimagekit-runtime == 'all' 

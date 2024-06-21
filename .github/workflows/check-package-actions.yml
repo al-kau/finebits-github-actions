@@ -86,12 +86,8 @@ jobs:
       run: |
         appimagekit="${{ steps.setup-appimagekit.outputs.appimagekit }}"
 
-        if [[ "$appimagekit" == "" || "$appimagekit" != "$GITHUB_ACTION_APPIMAGEKIT" ]]; then
-          echo "::error::appimagekit is incorrect"
-        fi
-
-        if ( ! command -v "$GITHUB_ACTION_APPIMAGEKIT" ); then
-          echo "::error::'$GITHUB_ACTION_APPIMAGEKIT' command not found"
+        if ( ! command -v "$appimagekit" ); then
+          echo "::error::'$appimagekit' command not found"
         fi
 
     - name: Pre-Run './package/appimage/pack' [with runtime x86_x64] action  
