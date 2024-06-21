@@ -24,9 +24,8 @@ description: |
 
 inputs:
   appimagekit-runtime:
-    description: 'to setup additional runtimes'
+    description: 'To setup additional runtimes'
     type: choice
-    default: all
     options:
     - all
     - aarch64
@@ -34,6 +33,8 @@ inputs:
     - i686
     - x86_64
     - none
+    required: false
+    default: all
 
   appimagekit-dir:
     description: 'The AppImageKit installation directory'
@@ -66,7 +67,7 @@ runs:
         dir="${{ inputs.appimagekit-dir }}"
 
         mkdir -p "$dir"
-        wget --quiet "$url" --directory-prefix="$dir"
+        wget --quiet --directory-prefix="$dir" "$url"
 
         appimagekit=$(find . -path '${dir}/appimagetool-*.AppImage' -print | head -n 1)
 
@@ -82,7 +83,7 @@ runs:
         dir="${{ inputs.appimagekit-dir }}"
 
         mkdir -p "$dir"
-        wget --quiet "$url" --directory-prefix="$dir"
+        wget --quiet --directory-prefix="$dir" "$url"
 
     - name: Setup aarch64 Runtime
       if: inputs.appimagekit-runtime == 'aarch64' || inputs.appimagekit-runtime == 'all' 
@@ -92,7 +93,7 @@ runs:
         dir="${{ inputs.appimagekit-dir }}"
 
         mkdir -p "$dir"
-        wget --quiet "$url" --directory-prefix="$dir"
+        wget --quiet --directory-prefix="$dir" "$url"
 
     - name: Setup i686 Runtime
       if: inputs.appimagekit-runtime == 'i686' || inputs.appimagekit-runtime == 'all' 
@@ -102,7 +103,7 @@ runs:
         dir="${{ inputs.appimagekit-dir }}"
 
         mkdir -p "$dir"
-        wget --quiet "$url" --directory-prefix="$dir"
+        wget --quiet --directory-prefix="$dir" "$url"
 
     - name: Setup armhf Runtime
       if: inputs.appimagekit-runtime == 'armhf' || inputs.appimagekit-runtime == 'all' 
@@ -112,4 +113,4 @@ runs:
         dir="${{ inputs.appimagekit-dir }}"
 
         mkdir -p "$dir"
-        wget --quiet "$url" --directory-prefix="$dir"
+        wget --quiet --directory-prefix="$dir" "$url"
