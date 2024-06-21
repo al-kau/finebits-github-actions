@@ -92,15 +92,11 @@ runs:
 
         mkdir -p "$tmp_dir"
 
-        echo "function clean"
-
         function clean() {
             echo "Cleaning..."
             cd "$here"
             rm -drf "$tmp_dir"
         }
-
-        echo "trap"
 
         trap clean EXIT
 
@@ -125,20 +121,9 @@ runs:
                 ;;
         esac
      
-        echo "readlink 1"
-
         appimagetool_realpath=$(readlink -e "${appimagetool}")
-
-        echo "readlink 2"
-
         runtime_realpath=$(readlink -e "${runtime}")
-
-        echo "readlink 3"
-
         package_app_dir_realpath=$(readlink -e "${package_app_dir}")
-
-        echo "readlink 4"
-
         output_dir_realpath=$(readlink -e "${output_dir}")
 
         cd "$tmp_dir"
@@ -152,6 +137,9 @@ runs:
         package=$(find . -path '${tmp_dir}/*.AppImage' -print | head -n 1)
         package_name=$(basename -- "$package")
 
-        cp "$package" $output_dir_realpath
+        echo "package - $package"
+        echo "package_name - $package_name"
+
+        cp "$package" "$output_dir"
 
         echo "appimage-package=$output_dir/$package_name" >> $GITHUB_OUTPUT
