@@ -104,7 +104,9 @@ runs:
 
         trap clean EXIT
 
-        case "${app_arch}" in
+        package_runtime=${{ inputs.package-runtime }}
+
+        case "${package_runtime}" in
             "x86_64")
                 export ARCH=x86_64
                 runtime="${appimagekit_dir}/runtime-x86_64"

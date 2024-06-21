@@ -93,9 +93,9 @@ jobs:
       uses: ./package/appimage/pack
       with:
         appimagetool: "${{ steps.setup-appimagetool.outputs.appimagetool }}"
-        appimagekit-dir: './.package/appimagekit/'
+        appimagekit-dir: './.package/appimagekit'
         package-runtime: 'x86_64'
-        package-output-dir: './.output/'
+        package-output-dir: './.output'
         package-app-dir: './package/appimage/.test/Test.AppDir'
 
     - name: Check './package/appimage/pack' action
