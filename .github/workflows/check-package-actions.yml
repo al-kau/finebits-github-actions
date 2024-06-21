@@ -86,7 +86,7 @@ jobs:
     - name: Prepare-Run './package/appimage/pack' action  
       shell: bash
       run: |
-        bash "./package/appimage/.test/prepare-Test.AppDir"
+        bash "./package/appimage/.test/prepare-Test.AppDir.sh"
 
     - name: Run './package/appimage/pack' action
       id: pack-appimage
