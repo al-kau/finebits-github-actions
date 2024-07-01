@@ -52,7 +52,8 @@ runs:
       id: prepare-appimagetool
       shell: bash
       run: |
-        appimagetool_dir="${{ github.workspace }}/.appimagetool/$(uuidgen)"
+        appimagetool_dir="./.appimagetool/$(uuidgen)"
+        mkdir -p "$dir"
 
         echo "directory=$appimagetool_dir" >> $GITHUB_OUTPUT
 
@@ -66,8 +67,8 @@ runs:
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
         dir="${{ steps.prepare-appimagetool.outputs.directory }}"
 
-        echo "Download appimagetool"
-        mkdir -p "$dir"
+        echo "Download appimagetool to '$(pwd)/$dir'"
+        
         wget --quiet --directory-prefix="$dir" "$url"
 
         appimagetool=$(find . -path "$dir/appimagetool-*.AppImage" -print | head -n 1)
@@ -75,7 +76,7 @@ runs:
         echo "Setup appimagetool: $appimagetool"
         chmod a+x "$appimagetool"
 
-        echo "$dir" >> $GITHUB_PATH
+        echo "$(pwd)/$dir" >> $GITHUB_PATH
         echo "$APPIMAGETOOL_FILE=$appimagetool" >> $GITHUB_ENV
 
     - name: Setup x86_64 Runtime
