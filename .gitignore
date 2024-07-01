@@ -1,2 +1,4 @@
 pack-nuget/.test-project/Nuget/bin/
 pack-nuget/.test-project/Nuget/obj/
+package/.test/Finebits.Package.Helloworld/bin/
+package/.test/Finebits.Package.Helloworld/obj/
