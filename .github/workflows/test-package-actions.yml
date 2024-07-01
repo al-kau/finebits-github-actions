@@ -48,16 +48,14 @@ jobs:
       id: setup-appimagetool
       uses: ./package/appimage/setup-appimagetool
       with:
-        appimagetool-dir: './.package/appimagetool'
         appimagetool-runtime: 'all'
 
     - name: Test 'package/appimage/setup-appimagetool' action
       shell: bash
       run: |
-        appimagetool="${{ steps.setup-appimagetool.outputs.appimagetool }}"
 
-        if ( ! command -v "$appimagetool" ); then
-          echo "::error::'package/appimage/setup-appimagetool' test failed. '$appimagetool' command not found"
+        if ( ! command -v "${{ env.APPIMAGETOOL_FILE }}" ); then
+          echo "::error::'package/appimage/setup-appimagetool' test failed. env.APPIMAGETOOL_FILE is '${{ env.APPIMAGETOOL_FILE }}' command not found"
           exit 1
         else
           echo "::notice::'package/appimage/setup-appimagetool' test passed."
@@ -72,10 +70,16 @@ jobs:
       id: pack-appimage
       uses: ./package/appimage/pack
       with:
-        appimagetool: "${{ steps.setup-appimagetool.outputs.appimagetool }}"
-        appimagetool-dir: './.package/appimagetool'
+        package-runtime: 'aarch64'
+        package-output-dir: './.output/aarch64'
+        package-app-dir: './package/appimage/.test/Test.AppDir'
+
+    - name: Run './package/appimage/pack' action
+      id: pack-appimage
+      uses: ./package/appimage/pack
+      with:
         package-runtime: 'x86_64'
-        package-output-dir: './.output'
+        package-output-dir: './.output/x86_64'
         package-app-dir: './package/appimage/.test/Test.AppDir'
 
     - name: Test './package/appimage/pack' action

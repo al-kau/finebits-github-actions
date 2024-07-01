@@ -36,16 +36,6 @@ inputs:
     required: false
     default: all
 
-  appimagetool-dir:
-    description: 'The appimagetool installation directory'
-    type: string
-    required: true
-
-outputs:
-  appimagetool:
-    description: 'The full name of the appimagetool file'
-    value: ${{ steps.setup-appimagetool.outputs.appimagetool-fullname }}
-
 runs:
   using: "composite"
 
@@ -58,6 +48,14 @@ runs:
           exit 1
         fi
 
+    - name: Prepare to setup the appimagetool
+      id: prepare-appimagetool
+      shell: bash
+      run: |
+        appimagetool_dir="${{ github.workspace }}/.appimagetool/$(uuidgen)"
+
+        echo "directory=$appimagetool_dir" >> $GITHUB_OUTPUT
+
     - name: Setup appimagetool
       id: setup-appimagetool
       shell: bash
@@ -66,7 +64,7 @@ runs:
         sudo add-apt-repository universe && sudo apt install libfuse2
 
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-        dir="${{ inputs.appimagetool-dir }}"
+        dir="${{ steps.prepare-appimagetool.outputs.directory }}"
 
         echo "Download appimagetool"
         mkdir -p "$dir"
@@ -77,14 +75,15 @@ runs:
         echo "Setup appimagetool: $appimagetool"
         chmod a+x "$appimagetool"
 
-        echo "appimagetool-fullname=$appimagetool" >> $GITHUB_OUTPUT
+        echo "$dir" >> $GITHUB_PATH
+        echo "$APPIMAGETOOL_FILE=$appimagetool" >> $GITHUB_ENV
 
     - name: Setup x86_64 Runtime
       if: inputs.appimagetool-runtime == 'x86_64' || inputs.appimagetool-runtime == 'all' 
       shell: bash
       run: |
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-x86_64"
-        dir="${{ inputs.appimagetool-dir }}"
+        dir="${{ steps.prepare-appimagetool.outputs.directory }}"
 
         mkdir -p "$dir"
         wget --quiet --directory-prefix="$dir" "$url"
@@ -94,17 +93,17 @@ runs:
       shell: bash
       run: |
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-aarch64"
-        dir="${{ inputs.appimagetool-dir }}"
+        dir="${{ steps.prepare-appimagetool.outputs.directory }}"
 
         mkdir -p "$dir"
         wget --quiet --directory-prefix="$dir" "$url"
 
-    - name: Setup i686 Runtime
+    - name: Setup i686 (i383) Runtime
       if: inputs.appimagetool-runtime == 'i686' || inputs.appimagetool-runtime == 'all' 
       shell: bash
       run: |
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-i686"
-        dir="${{ inputs.appimagetool-dir }}"
+        dir="${{ steps.prepare-appimagetool.outputs.directory }}"
 
         mkdir -p "$dir"
         wget --quiet --directory-prefix="$dir" "$url"
@@ -114,7 +113,7 @@ runs:
       shell: bash
       run: |
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-armhf"
-        dir="${{ inputs.appimagetool-dir }}"
+        dir="${{ steps.prepare-appimagetool.outputs.directory }}"
 
         mkdir -p "$dir"
         wget --quiet --directory-prefix="$dir" "$url"

@@ -21,16 +21,6 @@ name: Pack AppImage Package
 description: ""
 
 inputs:
-  appimagetool:
-    description: 'Path to file appimagetool-x86_64.AppImage'
-    type: string
-    required: true
-
-  appimagetool-dir:
-    description: 'Path to appimagetool-runtimes directory'
-    type: string
-    required: true
-
   package-runtime:
     description: 'package runtime'
     type: choice
@@ -70,8 +60,8 @@ runs:
           exit 1
         fi
 
-        if ( ! command -v "${{ inputs.appimagetool }}" ); then
-          echo "::error::'${{ inputs.appimagetool }}' command not found"
+        if ( ! command -v "${{ env.APPIMAGETOOL_FILE }}" ); then
+          echo "::error::'${{ env.APPIMAGETOOL_FILE }}' command not found"
           exit 2
         fi
 
@@ -80,8 +70,7 @@ runs:
       shell: bash
       run: |
 
-        appimagetool="${{ inputs.appimagetool }}"
-        appimagetool_dir="${{ inputs.appimagetool-dir }}"
+        appimagetool="${{ env.APPIMAGETOOL_FILE }}"
         output_dir="${{ inputs.package-output-dir }}"
         package_app_dir="${{ inputs.package-app-dir }}"
 
@@ -105,19 +94,19 @@ runs:
         case "${package_runtime}" in
             "x86_64")
                 export ARCH=x86_64
-                runtime="${appimagetool_dir}/runtime-x86_64"
+                runtime="runtime-x86_64"
                 ;;
             "aarch64")
                 export ARCH=arm_aarch64
-                runtime="${appimagetool_dir}/runtime-aarch64"
+                runtime="runtime-aarch64"
                 ;;
             "armhf")
                 export ARCH=arm
-                runtime="${appimagetool_dir}/runtime-armhf"
+                runtime="runtime-armhf"
                 ;;
             "i686")
                 export ARCH=i686
-                runtime="${appimagetool_dir}/runtime-i686"
+                runtime="runtime-i686"
                 ;;
         esac
      
