@@ -53,7 +53,7 @@ runs:
       shell: bash
       run: |
         appimagetool_dir="./.appimagetool/$(uuidgen)"
-        mkdir -p "$dir"
+        mkdir -p "$appimagetool_dir"
 
         echo "directory=$appimagetool_dir" >> $GITHUB_OUTPUT
 
