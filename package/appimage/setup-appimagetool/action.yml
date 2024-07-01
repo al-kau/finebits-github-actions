@@ -55,7 +55,7 @@ runs:
         appimagetool_dir="./.appimagetool/$(uuidgen)"
         mkdir -p "$appimagetool_dir"
 
-        echo "directory=$appimagetool_dir" >> $GITHUB_OUTPUT
+        echo "APPIMAGETOOL_DIR=$appimagetool_dir" >> $GITHUB_ENV
 
     - name: Setup appimagetool
       id: setup-appimagetool
@@ -65,7 +65,7 @@ runs:
         sudo add-apt-repository universe && sudo apt install libfuse2
 
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-        dir="${{ steps.prepare-appimagetool.outputs.directory }}"
+        dir="${{ env.APPIMAGETOOL_DIR }}"
 
         echo "Download appimagetool to '$(pwd)/$dir'"
         wget --quiet --directory-prefix="$dir" "$url"
@@ -78,7 +78,7 @@ runs:
 
         appimagetool_dir=$(readlink -f "$(pwd)/$dir")
 
-        echo "$appimagetool_dir" >> $GITHUB_PATH
+        echo "APPIMAGETOOL_DIR=$appimagetool_dir" >> $GITHUB_ENV
         echo "APPIMAGETOOL_FILE=$appimagetool_file" >> $GITHUB_ENV
 
     - name: Setup x86_64 Runtime
@@ -86,7 +86,7 @@ runs:
       shell: bash
       run: |
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-x86_64"
-        dir="${{ steps.prepare-appimagetool.outputs.directory }}"
+        dir="${{ env.APPIMAGETOOL_DIR }}"
 
         mkdir -p "$dir"
         wget --quiet --directory-prefix="$dir" "$url"
@@ -96,7 +96,7 @@ runs:
       shell: bash
       run: |
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-aarch64"
-        dir="${{ steps.prepare-appimagetool.outputs.directory }}"
+        dir="${{ env.APPIMAGETOOL_DIR }}"
 
         mkdir -p "$dir"
         wget --quiet --directory-prefix="$dir" "$url"
@@ -106,7 +106,7 @@ runs:
       shell: bash
       run: |
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-i686"
-        dir="${{ steps.prepare-appimagetool.outputs.directory }}"
+        dir="${{ env.APPIMAGETOOL_DIR }}"
 
         mkdir -p "$dir"
         wget --quiet --directory-prefix="$dir" "$url"
@@ -116,7 +116,7 @@ runs:
       shell: bash
       run: |
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-armhf"
-        dir="${{ steps.prepare-appimagetool.outputs.directory }}"
+        dir="${{ env.APPIMAGETOOL_DIR }}"
 
         mkdir -p "$dir"
         wget --quiet --directory-prefix="$dir" "$url"

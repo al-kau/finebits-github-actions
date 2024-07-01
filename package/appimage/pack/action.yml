@@ -71,6 +71,7 @@ runs:
       run: |
 
         appimagetool="${{ env.APPIMAGETOOL_FILE }}"
+        appimagetool_dir="${{ env.APPIMAGETOOL_DIR }}"
         output_dir="${{ inputs.package-output-dir }}"
         package_app_dir="${{ inputs.package-app-dir }}"
 
@@ -94,19 +95,19 @@ runs:
         case "${package_runtime}" in
             "x86_64")
                 export ARCH=x86_64
-                runtime="runtime-x86_64"
+                runtime="${appimagetool_dir}/runtime-x86_64"
                 ;;
             "aarch64")
                 export ARCH=arm_aarch64
-                runtime="runtime-aarch64"
+                runtime="${appimagetool_dir}/runtime-aarch64"
                 ;;
             "armhf")
                 export ARCH=arm
-                runtime="runtime-armhf"
+                runtime="${appimagetool_dir}/runtime-armhf"
                 ;;
             "i686")
                 export ARCH=i686
-                runtime="runtime-i686"
+                runtime="${appimagetool_dir}/runtime-i686"
                 ;;
         esac
      
