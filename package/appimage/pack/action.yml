@@ -18,11 +18,13 @@
 
 name: Pack AppImage Package
 
-description: ""
+description: |
+  You can package desktop application as AppImage that run on common Linux-based operating systems, 
+  such as RHEL, CentOS, Ubuntu, Fedora, Debian and derivatives.
 
 inputs:
   package-runtime:
-    description: 'package runtime'
+    description: 'To select the package runtime'
     type: choice
     options:
     - aarch64

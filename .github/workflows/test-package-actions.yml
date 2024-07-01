@@ -16,7 +16,7 @@
 #                                                                              #
 ################################################################################
 
-name: Test Package Actions
+name: Check the Package Actions
 
 on:
   workflow_dispatch:
@@ -33,7 +33,7 @@ on:
       
 jobs:
 
-  test-linux-actions:
+  check-linux-actions:
 
     runs-on: ubuntu-latest
 
@@ -66,22 +66,22 @@ jobs:
       run: |
         bash "./package/appimage/.test/prepare-Test.AppDir.sh"
 
-    - name: Run './package/appimage/pack' action
+    - name: Run './package/appimage/pack' action with 'aarch64'
       uses: ./package/appimage/pack
       with:
         package-runtime: 'aarch64'
-        package-output-dir: './.output/aarch64'
+        package-output-dir: './.output'
         package-app-dir: './package/appimage/.test/Test.AppDir'
 
-    - name: Run './package/appimage/pack' action
+    - name: Run './package/appimage/pack' action with 'x86_64'
       id: pack-appimage
       uses: ./package/appimage/pack
       with:
         package-runtime: 'x86_64'
-        package-output-dir: './.output/x86_64'
+        package-output-dir: './.output'
         package-app-dir: './package/appimage/.test/Test.AppDir'
 
-    - name: Test './package/appimage/pack' action
+    - name: Test './package/appimage/pack' action with 'x86_64'
       shell: bash
       run: |
         package=${{ steps.pack-appimage.outputs.package }}

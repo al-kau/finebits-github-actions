@@ -20,7 +20,8 @@ name: Setup appimagetool
 
 description: | 
   To setup appimagetool and its runtimes. Look at - https://github.com/AppImage/AppImageKit#appimagetool-usage
-  As a result, outputs.appimagetool contain the full name of the appimagetool-x86_64.AppImage file.
+  As a result, the 'APPIMAGETOOL_FILE' environment variable contains the full name of the appimagetool-x86_64.AppImage file
+  and the 'APPIMAGETOOL_DIR' environment variable contains the full path of the appimagetool-x86_64.AppImage directory
 
 inputs:
   appimagetool-runtime:
