@@ -67,7 +67,6 @@ jobs:
         bash "./package/appimage/.test/prepare-Test.AppDir.sh"
 
     - name: Run './package/appimage/pack' action
-      id: pack-appimage
       uses: ./package/appimage/pack
       with:
         package-runtime: 'aarch64'
