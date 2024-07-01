@@ -71,13 +71,17 @@ runs:
         
         wget --quiet --directory-prefix="$dir" "$url"
 
-        appimagetool=$(find . -path "$dir/appimagetool-*.AppImage" -print | head -n 1)
+        appimagetool_dir=$(readlink -f "$(pwd)/$dir")
+        
+        appimagetool=$(find . -path "$appimagetool_dir/appimagetool-*.AppImage" -print | head -n 1)
 
-        echo "Setup appimagetool: $appimagetool"
-        chmod a+x "$appimagetool"
+        appimagetool_file=$(readlink -f "$appimagetool")
 
-        echo "$(pwd)/$dir" >> $GITHUB_PATH
-        echo "$APPIMAGETOOL_FILE=$appimagetool" >> $GITHUB_ENV
+        echo "Setup appimagetool: $appimagetool_file"
+        chmod a+x "$appimagetool_file"
+
+        echo "$appimagetool_dir" >> $GITHUB_PATH
+        echo "APPIMAGETOOL_FILE=$appimagetool_file" >> $GITHUB_ENV
 
     - name: Setup x86_64 Runtime
       if: inputs.appimagetool-runtime == 'x86_64' || inputs.appimagetool-runtime == 'all' 
