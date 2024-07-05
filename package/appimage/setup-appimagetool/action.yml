@@ -63,6 +63,7 @@ runs:
       shell: bash
       run: |
         url="https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage"
+        url_desktop_file_validate="https://github.com/probonopd/static-tools/releases/download/continuous/desktop-file-validate-x86_64"
         dir="${{ steps.prepare-appimagetool.outputs.directory }}"
 
         echo "Download appimagetool to '$(pwd)/$dir'"
@@ -74,8 +75,13 @@ runs:
         echo "Setup appimagetool: $appimagetool_file"
         chmod a+x "$appimagetool_file"
 
+        wget --quiet --directory-prefix="$dir" "$url_desktop_file_validate"
+        mv "$dir/desktop-file-validate-x86_64" "$dir/desktop-file-validate"
+        chmod a+x "$dir/desktop-file-validate"
+
         appimagetool_dir=$(readlink -f "$(pwd)/$dir")
 
+        echo "$appimagetool_dir" >> $GITHUB_PATH
         echo "GITHUB_ACTION_APPIMAGETOOL_DIR=$appimagetool_dir" >> $GITHUB_ENV
         echo "GITHUB_ACTION_APPIMAGETOOL_FILE=$appimagetool_file" >> $GITHUB_ENV
 
