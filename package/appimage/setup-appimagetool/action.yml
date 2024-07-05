@@ -62,7 +62,7 @@ runs:
       id: setup-appimagetool
       shell: bash
       run: |
-        url="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+        url="https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage"
         dir="${{ steps.prepare-appimagetool.outputs.directory }}"
 
         echo "Download appimagetool to '$(pwd)/$dir'"
