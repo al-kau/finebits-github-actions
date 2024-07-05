@@ -127,7 +127,7 @@ runs:
 
         echo "Packing..."
 
-        ("${appimagetool_realpath}" --runtime-file="${runtime_realpath}" "${package_app_dir_realpath}")
+        ("${appimagetool_realpath}" --appimage-extract-and-run --runtime-file="${runtime_realpath}" "${package_app_dir_realpath}")
 
         cd "$here"
 
