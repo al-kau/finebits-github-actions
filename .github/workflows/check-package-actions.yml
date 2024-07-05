@@ -69,12 +69,12 @@ jobs:
       run: |
         bash "./package/appimage/.test/prepare-Test.AppDir.sh"
 
-   # - name: Run './package/appimage/pack' action with 'aarch64'
-   #   uses: ./package/appimage/pack
-   #   with:
-   #     package-runtime: 'aarch64'
-   #     package-output-dir: './.output'
-   #     package-app-dir: './package/appimage/.test/Test.AppDir'
+    - name: Run './package/appimage/pack' action with 'aarch64'
+      uses: ./package/appimage/pack
+      with:
+        package-runtime: 'aarch64'
+        package-output-dir: './.output'
+        package-app-dir: './package/appimage/.test/Test.AppDir'
 
     - name: Run './package/appimage/pack' action with 'x86_64'
       id: pack-appimage
