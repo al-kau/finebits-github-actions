@@ -62,9 +62,6 @@ runs:
       id: setup-appimagetool
       shell: bash
       run: |
-        echo "Install libfuse2"
-        sudo add-apt-repository universe && sudo apt install libfuse2
-
         url="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
         dir="${{ steps.prepare-appimagetool.outputs.directory }}"
 
@@ -86,7 +83,7 @@ runs:
       if: inputs.appimagetool-runtime == 'x86_64' || inputs.appimagetool-runtime == 'all' 
       shell: bash
       run: |
-        url="https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-x86_64"
+        url="https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-x86_64"
         dir="${{ steps.prepare-appimagetool.outputs.directory }}"
 
         wget --quiet --directory-prefix="$dir" "$url"
@@ -95,7 +92,7 @@ runs:
       if: inputs.appimagetool-runtime == 'aarch64' || inputs.appimagetool-runtime == 'all' 
       shell: bash
       run: |
-        url="https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-aarch64"
+        url="https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-aarch64"
         dir="${{ steps.prepare-appimagetool.outputs.directory }}"
 
         wget --quiet --directory-prefix="$dir" "$url"
@@ -104,7 +101,7 @@ runs:
       if: inputs.appimagetool-runtime == 'i686' || inputs.appimagetool-runtime == 'all' 
       shell: bash
       run: |
-        url="https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-i686"
+        url="https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-i686"
         dir="${{ steps.prepare-appimagetool.outputs.directory }}"
 
         wget --quiet --directory-prefix="$dir" "$url"
@@ -113,7 +110,7 @@ runs:
       if: inputs.appimagetool-runtime == 'armhf' || inputs.appimagetool-runtime == 'all' 
       shell: bash
       run: |
-        url="https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-armhf"
+        url="https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-armhf"
         dir="${{ steps.prepare-appimagetool.outputs.directory }}"
 
         wget --quiet --directory-prefix="$dir" "$url"
