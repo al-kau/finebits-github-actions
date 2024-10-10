@@ -16,40 +16,47 @@
 #                                                                              #
 ################################################################################
 
-name: Pre-Build Replace
+---
 
-description: To replace the placeholder in the target file with the text.
+name: Check the 'devhub/uno-platform/setup' Action
 
-inputs:
-  file:
-    description: 'Path to source file'
-    type: string
-    required: true
-    
-  placeholder:
-    description: 'Placeholder string'
-    type: string
-    required: true
+on: # yamllint disable-line rule:truthy
+  workflow_dispatch:
+  workflow_call:
 
-  value:
-    description: 'Required value'
-    type: string
-    required: true
+jobs:
 
-runs:
-  using: "composite"
+  checks:
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        uno-check: [deafult, specific-version, specific-manifest]
+        include:
+          - uno-check: deafult
+            manifest: ''
+            version: ''
+          - uno-check: specific-version
+            manifest: ''
+            version: '1.24.0'
+          - uno-check: specific-manifest
+            manifest: 'https://raw.githubusercontent.com/unoplatform/uno.check/cb74c45d871e416469bac56f228f0d514e0db3c3/manifests/uno.ui.manifest.json' # v1.20.0
+            version: ''
 
-  steps:
+    runs-on: ${{ matrix.os }}
 
-  - name: Replace
-    shell: bash
-    run: | 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
+        with:
+          fetch-depth: 0
 
-      source=$(cat "${{ inputs.file }}")
-      placeholder="${{ inputs.placeholder }}"
-      value="${{ inputs.value }}"
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@6bd8b7f7774af54e05809fcc5431931b3eb1ddee # v4.0.1
+        with:
+          dotnet-version: 8.0.x
 
-      result=${source//$placeholder/$value}
-
-      echo -n "$result" > "${{ inputs.file }}"
-
+      - name: Run 'devhub/uno-platform/setup'
+        uses: ./devhub/uno-platform/setup
+        with:
+          uno-check-manifest: ${{ matrix.manifest }}
+          uno-check-version: ${{ matrix.version }}
