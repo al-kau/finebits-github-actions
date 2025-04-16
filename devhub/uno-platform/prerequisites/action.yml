@@ -58,7 +58,7 @@ runs:
 
     - id: read-manifest
       if: ${{ runner.os == 'Linux' }}
-      uses: finebits/github-actions/devhub/uno-platform/read-manifest@preview
+      uses: al-kau/finebits-github-actions/devhub/uno-platform/read-manifest@preview
       with:
         uno-check-manifest: ${{ inputs.uno-check-manifest }}
         uno-check-version: ${{ inputs.uno-check-version }}

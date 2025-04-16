@@ -71,7 +71,7 @@ runs:
         done
         echo "skip_options=$options" >> $GITHUB_OUTPUT
 
-    - uses: finebits/github-actions/devhub/uno-platform/prerequisites@preview
+    - uses: al-kau/finebits-github-actions/devhub/uno-platform/prerequisites@preview
       with:
         uno-check-manifest: ${{ inputs.uno-check-manifest }}
         uno-check-version: ${{ inputs.uno-check-version }}
